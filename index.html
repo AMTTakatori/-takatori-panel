@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TAKATORI GOD PANEL</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Orbitron',sans-serif;
+}
+
+body{
+    background:#020202;
+    color:white;
+    overflow-x:hidden;
+}
+
+canvas{
+    position:fixed;
+    top:0;
+    left:0;
+    z-index:-1;
+}
+
+.panel{
+    width:390px;
+    margin:10px auto;
+    background:#0b0b0bee;
+    border:1px solid #00ff88;
+    border-radius:30px;
+    padding:18px;
+    box-shadow:0 0 40px #00ff88aa;
+    backdrop-filter:blur(10px);
+}
+
+.logo{
+    text-align:center;
+    font-size:32px;
+    font-weight:900;
+    color:#00ff88;
+    text-shadow:0 0 20px #00ff88;
+}
+
+.sub{
+    text-align:center;
+    color:#777;
+    margin-bottom:15px;
+}
+
+.profile{
+    background:#151515;
+    padding:15px;
+    border-radius:20px;
+    display:flex;
+    align-items:center;
+    gap:12px;
+    margin-bottom:15px;
+}
+
+.avatar{
+    width:60px;
+    height:60px;
+    border-radius:50%;
+    border:2px solid #00ff88;
+    background:url('https://i.imgur.com/8Km9tLL.png') center/cover;
+}
+
+.userinfo h2{
+    font-size:16px;
+    color:#00ff88;
+}
+
+.userinfo p{
+    font-size:12px;
+    color:#888;
+}
+
+.rank{
+    margin-left:auto;
+    color:gold;
+    font-size:12px;
+}
+
+.stats{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:10px;
+}
+
+.card{
+    background:#151515;
+    border-radius:18px;
+    padding:14px;
+}
+
+.stat{
+    text-align:center;
+}
+
+.stat h1{
+    color:#00ff88;
+    font-size:24px;
+}
+
+.sectionTitle{
+    margin-top:15px;
+    margin-bottom:10px;
+    color:#00ff88;
+    font-size:14px;
+}
+
+.feature{
+    background:#151515;
+    padding:14px;
+    border-radius:15px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin:8px 0;
+    transition:0.3s;
+}
+
+.feature:hover{
+    transform:scale(1.02);
+}
+
+.switch{
+    width:58px;
+    height:30px;
+    border-radius:30px;
+    background:#333;
+    position:relative;
+    cursor:pointer;
+    transition:0.3s;
+}
+
+.switch::before{
+    content:"";
+    width:24px;
+    height:24px;
+    border-radius:50%;
+    background:white;
+    position:absolute;
+    top:3px;
+    left:3px;
+    transition:0.3s;
+}
+
+.switch.active{
+    background:#00ff88;
+    box-shadow:0 0 15px #00ff88;
+}
+
+.switch.active::before{
+    left:31px;
+}
+
+.rangeBox{
+    background:#151515;
+    padding:15px;
+    border-radius:18px;
+    margin-top:10px;
+}
+
+.rangeBox p{
+    margin-bottom:8px;
+    color:#aaa;
+}
+
+input[type=range]{
+    width:100%;
+}
+
+select{
+    width:100%;
+    padding:12px;
+    border:none;
+    border-radius:12px;
+    background:#111;
+    color:white;
+    border:1px solid #00ff88;
+}
+
+button{
+    width:100%;
+    padding:15px;
+    border:none;
+    border-radius:18px;
+    background:#00ff88;
+    color:black;
+    font-weight:bold;
+    margin-top:15px;
+    cursor:pointer;
+    transition:0.3s;
+    font-size:16px;
+}
+
+button:hover{
+    transform:scale(1.03);
+}
+
+.progress{
+    width:100%;
+    height:12px;
+    background:#222;
+    border-radius:20px;
+    margin-top:15px;
+    overflow:hidden;
+}
+
+.bar{
+    width:0%;
+    height:100%;
+    background:#00ff88;
+    box-shadow:0 0 20px #00ff88;
+}
+
+.status{
+    text-align:center;
+    margin-top:15px;
+    color:#00ff88;
+    font-weight:bold;
+}
+
+.console{
+    margin-top:15px;
+    background:black;
+    border-radius:15px;
+    height:170px;
+    overflow:auto;
+    padding:10px;
+    color:#00ff88;
+    font-size:12px;
+}
+
+.miniBtns{
+    display:grid;
+    grid-template-columns:1fr 1fr 1fr;
+    gap:10px;
+    margin-top:15px;
+}
+
+.miniBtns button{
+    margin-top:0;
+    padding:10px;
+    font-size:12px;
+}
+
+.footer{
+    margin-top:15px;
+    text-align:center;
+    color:#666;
+    font-size:11px;
+}
+
+.badge{
+    color:gold;
+}
+
+.online{
+    color:#00ff88;
+}
+
+</style>
+</head>
+
+<body>
+
+<canvas id="bg"></canvas>
+
+<div class="panel">
+
+<div class="logo">TAKATORI GOD</div>
+<div class="sub">ULTIMATE FREE FIRE PANEL</div>
+
+<div class="profile">
+
+<div class="avatar"></div>
+
+<div class="userinfo">
+<h2>TAKATORI</h2>
+<p>ID : 9274XXXX</p>
+<p class="online">● ONLINE</p>
+</div>
+
+<div class="rank">
+👑 VIP
+</div>
+
+</div>
+
+<div class="stats">
+
+<div class="card stat">
+<h1 id="fps">90</h1>
+<p>FPS</p>
+</div>
+
+<div class="card stat">
+<h1 id="ping">12</h1>
+<p>PING</p>
+</div>
+
+<div class="card stat">
+<h1 id="ram">2.7</h1>
+<p>RAM FREE</p>
+</div>
+
+<div class="card stat">
+<h1 id="temp">34°</h1>
+<p>TEMP</p>
+</div>
+
+</div>
+
+<div class="sectionTitle">
+AIM FEATURES
+</div>
+
+<div class="feature">
+AimLock AI
+<div class="switch"></div>
+</div>
+
+<div class="feature">
+Auto Headshot
+<div class="switch"></div>
+</div>
+
+<div class="feature">
+Ultra Aim Assist
+<div class="switch"></div>
+</div>
+
+<div class="feature">
+Magic Bullet
+<div class="switch"></div>
+</div>
+
+<div class="feature">
+Drag Enhancement
+<div class="switch"></div>
+</div>
+
+<div class="sectionTitle">
+SYSTEM FEATURES
+</div>
+
+<div class="feature">
+Boost FPS
+<div class="switch"></div>
+</div>
+
+<div class="feature">
+Reduce Lag
+<div class="switch"></div>
+</div>
+
+<div class="feature">
+GPU Turbo
+<div class="switch"></div>
+</div>
+
+<div class="feature">
+RAM Cleaner
+<div class="switch"></div>
+</div>
+
+<div class="feature">
+Anti BlackScreen
+<div class="switch"></div>
+</div>
+
+<div class="rangeBox">
+
+<p>DPI BOOST</p>
+<input type="range" min="300" max="1200" value="800">
+
+<br><br>
+
+<p>SENSITIVITY</p>
+<input type="range" min="1" max="100" value="97">
+
+<br><br>
+
+<p>CONFIG MODE</p>
+
+<select>
+<option>ULTRA LEGIT</option>
+<option>RAGE MODE</option>
+<option>STREAMER SAFE</option>
+<option>LOW DEVICE</option>
+<option>IPAD VIEW</option>
+<option>PRO PLAYER</option>
+</select>
+
+</div>
+
+<div class="miniBtns">
+
+<button onclick="quick()">QUICK FIX</button>
+<button onclick="clearRam()">CLEAR RAM</button>
+<button onclick="boost()">BOOST</button>
+
+</div>
+
+<button onclick="inject()">
+START INJECT
+</button>
+
+<div class="progress">
+<div class="bar" id="bar"></div>
+</div>
+
+<div class="status" id="status">
+STATUS : WAITING...
+</div>
+
+<div class="console" id="console">
+> Takatori Ultimate System Loaded...<br>
+</div>
+
+<div class="footer">
+TAKATORI GOD PANEL v12.0 • <span class="badge">PREMIUM</span>
+</div>
+
+</div>
+
+<script>
+
+const switches=document.querySelectorAll(".switch");
+
+switches.forEach(sw=>{
+    sw.onclick=()=>{
+        sw.classList.toggle("active");
+    }
+});
+
+function log(t){
+    const c=document.getElementById("console");
+    c.innerHTML+="> "+t+"<br>";
+    c.scrollTop=c.scrollHeight;
+}
+
+function quick(){
+    log("Quick optimization complete.");
+}
+
+function clearRam(){
+    log("RAM cleaned successfully.");
+}
+
+function boost(){
+    log("GPU Turbo activated.");
+}
+
+function inject(){
+
+    const bar=document.getElementById("bar");
+    const status=document.getElementById("status");
+
+    let width=0;
+
+    const tasks=[
+        "Connecting secure server...",
+        "Loading FF memory...",
+        "Checking anti-cheat...",
+        "Injecting sensitivity...",
+        "Stabilizing FPS...",
+        "Unlocking performance...",
+        "Activating modules...",
+        "Finalizing configs..."
+    ];
+
+    let i=0;
+
+    status.innerHTML="STATUS : INJECTING...";
+
+    const inter=setInterval(()=>{
+
+        width+=10;
+
+        bar.style.width=width+"%";
+
+        if(i<tasks.length){
+            log(tasks[i]);
+            i++;
+        }
+
+        if(width>=100){
+            clearInterval(inter);
+            status.innerHTML="STATUS : SUCCESS ✔";
+            log("Injection completed successfully.");
+        }
+
+    },500);
+
+}
+
+setInterval(()=>{
+
+    document.getElementById("fps").innerHTML =
+    Math.floor(Math.random()*40)+80;
+
+    document.getElementById("ping").innerHTML =
+    Math.floor(Math.random()*15)+5;
+
+    document.getElementById("ram").innerHTML =
+    (Math.random()*3+1).toFixed(1);
+
+    document.getElementById("temp").innerHTML =
+    Math.floor(Math.random()*10)+30+"°";
+
+},1000);
+
+const canvas=document.getElementById("bg");
+const ctx=canvas.getContext("2d");
+
+canvas.width=window.innerWidth;
+canvas.height=window.innerHeight;
+
+let particles=[];
+
+for(let i=0;i<150;i++){
+
+    particles.push({
+        x:Math.random()*canvas.width,
+        y:Math.random()*canvas.height,
+        r:Math.random()*2,
+        d:Math.random()*1.5
+    });
+
+}
+
+function animate(){
+
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+
+    ctx.fillStyle="#00ff88";
+
+    particles.forEach(p=>{
+
+        ctx.beginPath();
+        ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
+        ctx.fill();
+
+        p.y+=p.d;
+
+        if(p.y>canvas.height){
+            p.y=0;
+            p.x=Math.random()*canvas.width;
+        }
+
+    });
+
+    requestAnimationFrame(animate);
+
+}
+
+animate();
+
+</script>
+
+</body>
+</html>
